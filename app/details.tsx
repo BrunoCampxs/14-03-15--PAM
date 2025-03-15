@@ -2,7 +2,6 @@ import fetchCharacters from '@/scripts/API_HOST';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'expo-router';
 import {FlatList, Image, Text, View, StyleSheet} from 'react-native';
-import { useAnimatedKeyboard } from 'react-native-reanimated';
 
 interface Personagem{
     id: number;
@@ -13,7 +12,7 @@ interface Personagem{
 
 export default function home() {
     const router = useRouter();
-    const [personagens, setPersonagens] = useState([]);
+    const [personagens, setPersonagens] = useState<Personagem[]>([]);
     const [carregar, setCarregar] = useState(true);
 
 
@@ -29,13 +28,13 @@ return(
         <Text>Detalhes</Text>
         <FlatList 
         data={personagens}
-        keyExtractor={item => {item.id.toString()}}
-        renderItem={({item}) => {
+        keyExtractor={item => item.id.toString()}
+        renderItem={({item}) =>( 
             <View style= {styles.card}>
-            <Image source={{uri:item.images{0}}}/>
+            <Image source={{uri:item.images[0]}} style={styles.image}/>
             <Text>{item.name}</Text>
             </View>
-        }}
+        )}
         />
         </View>
 )
@@ -45,16 +44,15 @@ container: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 20,
     backgroundColor: "#FFF",
     padding: 15
 },
 card: {
     backgroundColor: "#F4F4F4",
     padding: 10,
-    marginvertical: 8,
+    marginVertical: 8,
     borderRadius: 10,
-    alingItems: "center",
+    justifyContent: "center"
     
 },
 image: {
